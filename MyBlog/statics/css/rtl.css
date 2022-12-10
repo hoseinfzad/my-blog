@@ -1,0 +1,59 @@
+@font-face {
+    font-family: Sahel;
+    src: url('Sahel.eot');
+    src: url('Sahel.eot?#iefix') format('embedded-opentype'),
+        url('Sahel.woff2') format('woff2'),
+        url('Sahel.woff') format('woff'),
+        url('Sahel.ttf') format('truetype');
+}
+
+body {
+    text-align: right;
+    font-family: "Sahel"
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-align: left;
+}
+
+.sidebar ul li h5 {
+    font-size: 19px;
+    font-weight: 900;
+    text-align: right !important;
+    color: #20232e;
+    line-height: 30px;
+    transition: all 0.3s;
+    
+}
+
+.navbar-expand-lg .navbar-nav {
+    -ms-flex-direction: row;
+    flex-direction: row;
+    /* text-align: left; */
+    margin-left: initial !important;
+    margin-right: auto;
+}
+
+.navbar .navbar-brand h2 {
+    color: #1e1e1e;
+    text-transform: uppercase;
+    font-size: 24px;
+    font-weight: 500;
+    font-family: Sahel;
+    -webkit-transition: all .3s ease 0s;
+    -moz-transition: all .3s ease 0s;
+    -o-transition: all .3s ease 0s;
+    transition: all .3s ease 0s;
+}
+
+.sidebar .content ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-align: right;
+}
+
+
