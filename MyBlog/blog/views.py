@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Category
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from .forms import ContactForm
+from django.contrib import messages
 
 def index(request, **kwargs):
     posts = Post.objects.filter(status=True)
@@ -8,6 +10,8 @@ def index(request, **kwargs):
         posts = posts.filter(category__name=kwargs['cat_name'])
     if kwargs.get('author_username') != None:
         posts = posts.filter(author__username=kwargs['author_username'])
+    if kwargs.get('tag_name') != None:
+        posts = posts.filter(tags__name__in=[kwargs['tag_name']])
         
     posts = Paginator(posts, 3)
     try:
@@ -35,3 +39,21 @@ def blog_search(request):
     return render(request, 'index.html', context)
 
 
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'درخواست شما با موفقیت ارسال شد.')
+        else:
+            messages.error(request, 'درخواست نامعتبر.')
+            messages.error(request, form.errors)
+    else:
+        form = ContactForm()
+    
+    context = {'form': form}
+    return render(request, 'contact.html', context)
+
+
+def about(request):
+    return render(request, 'about.html')
