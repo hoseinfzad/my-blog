@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .feeds import LatestEntriesFeed
 
 
 
@@ -16,5 +17,7 @@ urlpatterns = [
     path('search/', views.blog_search, name='search'),
     path('contact/', views.contact, name='contact'),
     path('about/', views.about, name='about'),
+    path('latest/feed/', LatestEntriesFeed()),
+
     
 ]

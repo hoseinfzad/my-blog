@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post, Category
+from .models import Post, Category, Comment
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from .forms import ContactForm
+from .forms import ContactForm, CommentForm
 from django.contrib import messages
 
 def index(request, **kwargs):
@@ -26,10 +26,25 @@ def index(request, **kwargs):
 
 
 def post_details(request, year, month, day, post):
-    posts = get_object_or_404(Post, slug=post, status=True, published_date__year=year,
-                              published_date__month=month, published_date__day=day)
     
-    return render(request, 'details.html',{'posts': posts})
+    
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, '.نظر شما با موفقیت ارسال شد و پس از تایید ثبت خواهد شد')
+        else:
+            messages.error(request, 'درخواست نامعتبر')
+            messages.error(request, form.errors)
+            
+    
+    posts = get_object_or_404(Post, slug=post, status=True, published_date__year=year,
+                                published_date__month=month, published_date__day=day)
+        
+    comments = posts.comments.filter(approved=True)
+    form = CommentForm()
+    context = {'posts': posts, 'comments': comments, 'form': form}
+    return render(request, 'details.html', context)
 
 def blog_search(request):
     posts = Post.objects.filter(status=True)
@@ -44,9 +59,9 @@ def contact(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'درخواست شما با موفقیت ارسال شد.')
+            messages.success(request, '.پیام شما با موفقیت ارسال شد')
         else:
-            messages.error(request, 'درخواست نامعتبر.')
+            messages.error(request, 'درخواست نامعتبر')
             messages.error(request, form.errors)
     else:
         form = ContactForm()

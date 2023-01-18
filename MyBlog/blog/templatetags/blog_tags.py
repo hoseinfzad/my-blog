@@ -1,11 +1,15 @@
 from django import template
-from blog.models import Post, Category
+from blog.models import Post, Category, Comment
 
 register = template.Library()
 
 @register.filter
 def snippet(value, arg=20):
     return value[:arg]
+
+@register.simple_tag(name="count_comments")
+def function(pid):
+    return Comment.objects.filter(post=pid, approved=True).count()
 
 @register.inclusion_tag("recent_posts.html")
 def recent_posts():

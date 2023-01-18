@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load blog_tags %}
+{% load humanize %}
 
 {% block content %}
 
@@ -78,7 +79,7 @@
                       <ul class="post-info">
                         <li><a href="{% url 'blog:author' author_username=posts.author.username %}">{{posts.author}}</a></li>
                         <li><a href="#">{{posts.published_date|date:"D d M Y"}}</a></li>
-                        <li><a href="#">10 Comments</a></li>
+                        <li><a href="#">{{comments|length}} Comments</a></li>
                       </ul>
                       <p>{{posts.content}}</p>
                       <div class="post-options">
@@ -103,40 +104,25 @@
                     </div>
                   </div>
                 </div>
+                
                 <div class="col-lg-12">
                   <div class="sidebar-item comments">
                     <div class="sidebar-heading">
-                      <h2>4 comments</h2>
+                      <h2>{{comments|length}} Comment</h2>
                     </div>
                     <div class="content">
+                      {% for comment in comments %}
                       <ul>
                         <li>
                           <div class="author-thumb">
                             <img src="{% static 'images/comment-author-01.jpg' %}" alt="">
                           </div>
                           <div class="right-content">
-                            <h4>Charles Kate<span>May 16, 2020</span></h4>
-                            <p>Fusce ornare mollis eros. Duis et diam vitae justo fringilla condimentum eu quis leo. Vestibulum id turpis porttitor sapien facilisis scelerisque. Curabitur a nisl eu lacus convallis eleifend posuere id tellus.</p>
+                            <h4>{{comment.name}}<span>{{comment.created_date|naturalday}}</span></h4>
+                            <p>{{comment.body}}</p>
                           </div>
                         </li>
-                        <li class="replied">
-                          <div class="author-thumb">
-                            <img src="{% static 'images/comment-author-02.jpg' %}" alt="">
-                          </div>
-                          <div class="right-content">
-                            <h4>Thirteen Man<span>May 20, 2020</span></h4>
-                            <p>In porta urna sed venenatis sollicitudin. Praesent urna sem, pulvinar vel mattis eget.</p>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="author-thumb">
-                            <img src="{% static 'images/comment-author-03.jpg' %}" alt="">
-                          </div>
-                          <div class="right-content">
-                            <h4>Belisimo Mama<span>May 16, 2020</span></h4>
-                            <p>Osmosis چه خدماتی ارائه می‌دهد؟</p>
-                          </div>
-                        </li>
+                        <!--
                         <li class="replied">
                           <div class="author-thumb">
                             <img src="{% static 'images/comment-author-02.jpg' %}" alt="">
@@ -146,7 +132,9 @@
                             <p>Mauris sit amet justo vulputate, cursus massa congue, vestibulum odio. Aenean elit nunc, gravida in erat sit amet, feugiat viverra leo.</p>
                           </div>
                         </li>
+                        -->
                       </ul>
+                      {% endfor %}
                     </div>
                   </div>
                 </div>
@@ -155,8 +143,20 @@
                     <div class="sidebar-heading">
                       <h2>Your comment</h2>
                     </div>
+                    
+                    <!--<form method="post" style="margin-top: 1.3em;">
+                      <input type="hidden" name="post" value="{{post.id}}" />
+                      {{form.as_p}}
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
+                    </form>
+                     -->
+                    
+                     {% include 'includes/messages.html' %}
                     <div class="content">
-                      <form id="comment" action="#" method="post">
+                      <form id="comment" action="{% url 'blog:post_detail' posts.published_date.year posts.published_date.month posts.published_date.day posts.slug %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="post" value="{{posts.id}}" />
                         <div class="row">
                           <div class="col-md-6 col-sm-12">
                             <fieldset>
@@ -175,7 +175,7 @@
                           </div>
                           <div class="col-lg-12">
                             <fieldset>
-                              <textarea name="message" rows="6" id="message" placeholder="Type your comment" required=""></textarea>
+                              <textarea name="body" rows="6" id="body" placeholder="Type your comment" required=""></textarea>
                             </fieldset>
                           </div>
                           <div class="col-lg-12">
@@ -186,6 +186,7 @@
                         </div>
                       </form>
                     </div>
+                    
                   </div>
                 </div>
               </div>
