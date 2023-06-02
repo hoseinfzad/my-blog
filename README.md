@@ -1,2 +1,2 @@
-# my-blog
- a blog for write everyting
+# My-blog
+ A blog to write everyting
