@@ -1,5 +1,5 @@
 # My-blog
-To run my-blog in development mode; Just use steps below:
+## To run my-blog in development mode; Just use steps below:
 
     1.Install python3, pip, virtualenv in your system.
     2.Clone the project https://github.com/hoseinfzad/my-blog.
