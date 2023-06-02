@@ -10,7 +10,7 @@ To run my-blog in development mode; Just use steps below:
             venv/script/activate
             pip install -r requirements.txt
             python manage.py migrate  # Create database tables
-            ````
+            
       
       <ol>Run MyBlog using python manage.py runserver</ol>
       <ol>Go to http://localhost:8000 to see your MyBlog version</ol>
