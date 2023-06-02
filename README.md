@@ -12,7 +12,7 @@ To run my-blog in development mode; Just use steps below:
             5.python manage.py migrate  # Create database tables
             
       
-      Run MyBlog using python manage.py runserver
-      <ol>Go to http://localhost:8000 to see your MyBlog version</ol>
+    `  Run MyBlog using python manage.py runserver
+      <ol>Go to http://localhost:8000 to see your MyBlog version</ol>`
       
 </li>
